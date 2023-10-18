@@ -25,7 +25,6 @@ bool alertIfNotNumber(string value)
 
 enum class InputType
 {
-	None,
 	Console,
 	File
 };
@@ -50,6 +49,12 @@ public:
 		{
 			LI[i] = li[i];
 		}
+	}
+	~CrsMatrix()
+	{
+		delete[] A;
+		delete[] LJ;
+		delete[] LI;
 	}
 
 	void Print()
@@ -98,19 +103,6 @@ public:
 			break;
 		}
 	}
-	CsMatrix(int* a, int* lj, int* li, int notNullElements)
-	{
-		_notNullElements = notNullElements;
-		AllocatePackMemory();
-
-		for (size_t i = 0; i < notNullElements; i++)
-		{
-			A[i] = a[i];
-			LJ[i] = lj[i];
-			LI[i] = li[i];
-		}
-	}
-
 	~CsMatrix()
 	{
 		ClearMemory();
@@ -410,29 +402,29 @@ int main()
 	string inputNumber = "";
 	cin >> choise;
 
-	if (choise == 1)                    // Ввод с консоли
+	while (true)
 	{
-		CsMatrix matrix1(InputType::Console);
-		CsMatrix matrix2(InputType::Console);
-		auto sum = matrix1 + matrix2;
-		sum->Print();
+		if (choise == 1)                    // Ввод с консоли
+		{
+			CsMatrix matrix1(InputType::Console);
+			CsMatrix matrix2(InputType::Console);
+			auto sum = matrix1 + matrix2;
+			sum->Print();
+			delete sum;
+		}
+		else if (choise == 2)                // Ввод с файла
+		{
+			CsMatrix matrix1(InputType::File);
+			CsMatrix matrix2(InputType::File);
+			auto sum = matrix1 + matrix2;
+			sum->Print();
+			delete sum;
+		}
+		else if (choise == 3)                // Выход
+		{
+			return 0;
+		}
 	}
-	else if (choise == 2)                // Ввод с файла
-	{
-		CsMatrix matrix1(InputType::File);
-		CsMatrix matrix2(InputType::File);
-		auto sum = matrix1 + matrix2;
-		sum->Print();
-	}
-	else if (choise == 3)                // Выход
-	{
-		return 0;
-	}
-	else
-	{
-		cout << "Неправильный выбор\n";
-	}
-
 
 	return 0;
 }
